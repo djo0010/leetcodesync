@@ -1,25 +1,29 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        #gets length of grid in x and y directions
-        x, y = len(grid), len(grid[0])
-        #all directions to check
-        dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-        numOfIslands = 0
-
-        def dfs(row, col) -> bool:
-            grid[row][col] = '0'
-            for directionX, directionY in dirs:
-                rowToCheck, colToCheck = row + directionX, col + directionY
-                if 0 <= rowToCheck < x and 0 <= colToCheck < y and grid[rowToCheck][colToCheck] == "1":
-                    dfs(rowToCheck, colToCheck)
+        
+        
+        count = 0
+        
+        def dfs(row: int, col: int, grid: List[List[str]]):
+            dirs = [(0,1),(0,-1),(1,0),(-1,0)]
+            if grid[row][col] == "0":
+                return
+            grid[row][col] = "0"
             
+            for dx, dy in dirs:
+                newRow = row + dx
+                newCol = col + dy
+                if 0 <= newRow < len(grid) and 0 <= newCol < len(grid[0]):
+                    dfs(newRow, newCol, grid)
+            
+        for row in range(len(grid)):
+            for col in range(len(grid[0])):
+                if grid[row][col] == "1":
+                    count += 1
+                    dfs(row, col, grid)
+                    
+        
+        return count
 
-        for i in range(x):
-            for j in range(y):
-                if grid[i][j] == '1':
-                    numOfIslands += 1
-                    dfs(i, j)
-        return numOfIslands
-
-    
-
+            
+        
